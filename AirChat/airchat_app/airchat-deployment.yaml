@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airchat-server
+  labels:
+    app: airchat-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airchat-server
+  template:
+    metadata:
+      labels:
+        app: airchat-server
+    spec:
+      containers:
+      - name: airchat-server
+        image: sushravya724/airchat-server:v1
+        env:
+        - name: REDIS_HOST
+          value: redis
+        - name: RABBITMQ_HOST
+          value: rabbitmq
+        resources:
+          limits:
+            cpu: 100m  
+            memory: 400Mi

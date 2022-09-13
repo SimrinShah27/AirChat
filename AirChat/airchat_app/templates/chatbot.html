@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+  <title>Candice</title>
+  <head>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://user-images.githubusercontent.com/20112458/49326597-773b7280-f57a-11e8-853d-20ed61d18b0d.png"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+      body {
+        font-family: monospace;
+      }
+      h1 {
+        background-color: yellow;
+        display: inline-block;
+        font-size: 3em;
+        margin: 0;
+        padding: 14px;
+      }
+      h3 {
+        color: black;
+        font-size: 20px;
+        margin-top: 3px;
+        text-align: center;
+      }
+      #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        margin-top: 60px;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-family: monospace;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: #808080;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #4169e1;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      #tidbit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 78%;
+        margin-top: 60px;
+        border: 1px solid green;
+      }
+      .box {
+        border: 2px solid black;
+      }
+
+      .btn-group button {
+  background-color: #04AA6D; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+    </style>
+  </head>
+  <body>
+    <img />
+    <center>
+      <h1>
+        <img
+          src="https://user-images.githubusercontent.com/20112458/49326597-773b7280-f57a-11e8-853d-20ed61d18b0d.png"
+          alt="CANDICE"
+          style="width:40px;height:40px;"
+        />Your Personal ChatBot
+      </h1>
+    </center>
+    
+    <div class="box"></div>
+    <div class="boxed">
+      <div>
+        <div id="chatbox">
+          <img
+            src="https://user-images.githubusercontent.com/20112458/49326597-773b7280-f57a-11e8-853d-20ed61d18b0d.png"
+            alt="CANDICE"
+            style="width:40px;height:40px;"
+          />
+          <p class="botText">
+            <span>Hi! I'm Candice your personal ChatBot ❤️</span>
+          </p>
+        </div>
+        <div id="userInput">
+        	<div class="btn-group">
+			  <button class="cheap_tick">Cheapest Tickets</button>
+			  <button class="cheap_tick_month">Cheapest Tickets by Month</button>
+			  <button class="pr_alt">Price for Alternate Directions</button>
+			  <button class="tr_flight">Track Flight</button>
+			  <button class="ratings">Ratings</button>
+			  <!--<button class="airport">Airports</button>
+        <button class="airline">Airlines</button>-->
+			</div>
+			<br>
+          <input id="textInput" type="text" name="msg" placeholder="Message" />
+        </div>
+      </div>
+      <script>
+
+      	var origin;
+        var destination;
+        var depart_date;
+        var return_date;
+        var cheapest_flag=0;
+        var cheapest_month_flag=0;
+        var alt_dir_flag=0;
+        var track_flight_flag=0;
+        var ratings_flag=0;
+        var origin_flag=0;
+        var destination_flag=0;
+        var depart_date_flag=0;
+        var return_date_flag=0;
+        var flight_no_flag=0;
+        var email_req=0;
+        var email_req_yes=0;
+        var email_resp='';
+        var air_name_rating=0;
+        var rating_category=0;
+        var rating_airname='';
+        var rating_cat='';
+        var fix_ui=0;
+
+
+      	 $(document).ready(function(){
+
+
+  $(".tr_flight").click(function(event){
+
+  	
+  	track_flight_flag = 1;
+    $("#textInput").val("Track Flight");
+    getBotResponse();
+
+  });
+
+  $(".cheap_tick").click(function(event){
+
+    cheapest_flag = 1;
+    $("#textInput").val("Cheapest Tickets");
+    getBotResponse();
+  	
+
+  });
+
+  $(".cheap_tick_month").click(function(event){
+
+    cheapest_month_flag = 1;
+    $("#textInput").val("Cheapest Tickets by Month");
+    getBotResponse();
+    
+
+  });
+
+  $(".pr_alt").click(function(event){
+
+    alt_dir_flag = 1;
+    $("#textInput").val("Price for Alternate Directions");
+    getBotResponse();
+    
+
+  });
+
+  $(".ratings").click(function(event){
+
+    ratings_flag = 1;
+    $("#textInput").val("Ratings");
+    getBotResponse();
+    
+
+  });
+
+
+});
+ 
+       function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+
+          //Cheapest Tickets button
+          if(cheapest_flag==1){
+            if(origin_flag == 0){
+              var text = 'Enter Origin (city name or airport code):'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              origin_flag=1;
+            }
+            else if(destination_flag == 0){
+              $.post("/validate_code", { 'msg': rawText }).done(function(data) {
+                console.log(data)
+                if(data.return == '1'){
+
+                  //origin = rawText;
+                  origin = data.airport_iata
+                  var text = 'Enter Destination (city name or airport code):'
+                  var info_origin = '<p class="botText"><span>' + data.city +" - "+ data.airport_name + "</span></p>";
+                  var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+                  $("#chatbox").append(info_origin);
+                  $("#chatbox").append(botHtml);
+                  destination_flag=1;
+
+                }else{
+                  var text = 'Enter valid Origin:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              
+
+                }
+            
+          });
+              
+            }
+            else if(depart_date_flag == 0){
+
+                $.post("/validate_code", { 'msg': rawText }).done(function(data) {
+
+                if(data.return == '1'){
+
+                  destination = data.airport_iata;
+                  var text = 'Enter Departure Date (yyyy/mm/dd):'
+                  var info_dest = '<p class="botText"><span>' + data.city +" - "+ data.airport_name + "</span></p>";
+                  var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+                  $("#chatbox").append(info_dest);
+                  $("#chatbox").append(botHtml);
+                  depart_date_flag=1;
+
+                }else{
+                  var text = 'Enter valid Destination:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+             
+                }
+            
+          });
+              
+            }
+            else if(return_date_flag == 0){
+              if(isValidDate(rawText)){
+                
+                  depart_date = rawText
+                  var text = 'Enter Return Date (yyyy/mm/dd):'
+                  var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+                  $("#chatbox").append(botHtml);
+                  return_date_flag=1;
+               
+
+              
+              }else{
+                
+                   var text = 'Enter Valid Departure Date (yyyy/mm/dd):'
+              
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              
+
+              }
+              
+              
+            }
+            else{
+              if(isValidDate(rawText)){
+
+                return_date = rawText; 
+                cheapest_flag=0;
+                origin_flag=0;
+                destination_flag=0;
+                depart_date_flag=0;
+                return_date_flag=0;
+                fix_ui=1;
+              $.post("/execute_query", { 'message': 'cheap tickets', 'payload':JSON.stringify({'origin': origin, 'destination': destination, 'depart_date': depart_date, 'return_date': return_date})}).done(function(data) {
+              //var text = data;
+              
+              var response=''
+              var dataLength = data.length;
+              for (var i = 0; i < dataLength; i++) {
+
+                for (let j in data[i]) {
+                        response += "<b>" + j + "</b>: " + data[i][j] + "<br>"
+                    }
+                    response += "<br>"
+                  
+                        }
+
+              var botHtml = '<p class="botText"><span>' + response + "</span></p>";
+              $("#chatbox").append(botHtml);
+              email(data);
+
+
+
+              });
+
+
+
+            }else{
+              var text = 'Enter Valid Return Date (yyyy/mm/dd):'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+
+
+            }
+
+            }
+                         
+          }
+
+          //Cheapest Tickets by Month button
+          if(cheapest_month_flag==1 || alt_dir_flag==1){
+
+            if(origin_flag == 0){
+              var text = 'Enter Origin (city name or airport code):'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              origin_flag=1;
+            }
+            else if(destination_flag == 0){
+              $.post("/validate_code", { 'msg': rawText }).done(function(data) {
+                console.log(data)
+                if(data.return == '1'){
+
+                  origin = data.airport_iata
+                  var text = 'Enter Destination (city name or airport code):'
+                  var info_origin = '<p class="botText"><span>' + data.city +" - "+ data.airport_name + "</span></p>";
+                  var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+                  $("#chatbox").append(info_origin);
+                  $("#chatbox").append(botHtml);
+                  destination_flag=1;
+
+                }else{
+                  var text = 'Enter valid Origin:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              
+
+                }
+            
+          });
+              
+            }
+             else{
+
+               $.post("/validate_code", { 'msg': rawText }).done(function(data) {
+
+                if(data.return == '1'){
+
+                destination = data.airport_iata;
+                  var info_dest = '<p class="botText"><span>' + data.city +" - "+ data.airport_name + "</span></p>";
+
+                  $("#chatbox").append(info_dest);
+                  
+
+                if(cheapest_month_flag==1){
+
+                  message='cheap tickets by month';
+                }else if(alt_dir_flag==1){
+                  message = 'alternate directions';
+                }
+                fix_ui=1;
+                $.post("/execute_query", { 'message': message, 'payload':JSON.stringify({'origin': origin, 'destination': destination})}).done(function(data) {
+      
+              var response=''
+              var dataLength = data.length;
+              for (var i = 0; i < dataLength; i++) {
+
+                for (let j in data[i]) {
+                        response += "<b>" + j + "</b>: " + data[i][j] + "<br>"
+                    }
+                    response += "<br>"
+                  
+                        }
+
+              var botHtml = '<p class="botText"><span>' + response + "</span></p>";
+              $("#chatbox").append(botHtml);
+              cheapest_month_flag=0;
+                origin_flag=0;
+                destination_flag=0;
+                alt_dir_flag=0;
+                
+                email(data);
+
+
+              });
+
+                }else{
+                  var text = 'Enter valid Destination:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+             
+                }
+            
+          });
+
+                
+
+            }
+
+
+          }
+
+
+          //Track Flight button
+          if(track_flight_flag==1){
+
+            if(flight_no_flag == 0){
+
+              var text = 'Which flight do you want to track? Enter the flight no.!:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              flight_no_flag=1;
+
+            }else{
+                  
+                flight_no = rawText; 
+                track_flight_flag=0;
+                flight_no_flag=0;
+                fix_ui=1;
+
+              $.post("/execute_query", { 'message': 'track flight', 'payload':JSON.stringify({'flight_iata': flight_no})}).done(function(data) {
+              //var text = data;
+              var response=''
+              var dataLength = data.length;
+              for (var i = 0; i < dataLength; i++) {
+
+                for (let j in data[i]) {
+                        response += "<b>" + j + "</b>: " + data[i][j] + "<br>"
+                    }
+                    response += "<br>"
+                  
+                        }
+
+              var botHtml = '<p class="botText"><span>' + response + "</span></p>";
+              $("#chatbox").append(botHtml);
+              email(data);
+
+
+              });
+
+            
+            }
+
+          }
+          
+
+
+           //Ratings button
+          if(ratings_flag==1){
+
+            if(air_name_rating == 0){
+
+              var text = 'Enter the name of the flight whose rating you want to know!:'
+              var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+              $("#chatbox").append(botHtml);
+              air_name_rating=1;
+
+            }
+
+          }
+
+
+
+
+        }
+
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            
+          var rawText = $("#textInput").val();
+
+          if(email_req==1){
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+
+
+              if(rawText.toLowerCase() == 'yes'){
+
+            var resp = "Enter your email id !";
+            var botHtml = '<p class="botText"><span>' + resp + "</span></p>";
+            $("#chatbox").append(botHtml);
+            email_req_yes=1;
+
+            return
+
+         }else if(rawText.toLowerCase() == 'no'){
+
+            var resp = "You can continue to select any service you want !"
+            var botHtml = '<p class="botText"><span>' + resp + "</span></p>";
+            $("#chatbox").append(botHtml);
+            email_req=0;
+
+            return 
+
+      }
+
+      if(email_req_yes==1){
+        var resp = "Thank you! You will receive your email within 24 hrs"
+        var botHtml = '<p class="botText"><span>' + resp + "</span></p>";
+        $("#chatbox").append(botHtml);
+        email_req=0;
+        email_req_yes=0;
+
+        return 
+
+      }
+
+
+          }
+
+
+
+            if(ratings_flag==1){
+
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+
+            if(air_name_rating ==1){
+              rating_airname = rawText;
+              var resp = "In which category do you want a rating? Please enter the option corresponding to the desired category: a - Booking, b - Luggage, c - Overall Rating ";
+            var botHtml = '<p class="botText"><span>' + resp + "</span></p>";
+            $("#chatbox").append(botHtml);
+            rating_category=1;
+            air_name_rating=0;
+
+            }else if(rating_category==1){
+              rating_cat=rawText;
+              //if(rating_cat !=='a' || rating_cat !=='b' || rating_cat !=='c'){
+
+                //var resp = "Enter a valid category option !";
+              //var botHtml = '<p class="botText"><span>' + resp + "</span></p>";
+              //$("#chatbox").append(botHtml);
+//
+              //return
+//
+              //}
+
+
+
+               $.post("/execute_query", { 'message': 'ratings', 'payload':JSON.stringify({'airlineName': rating_airname ,'category':rating_cat})}).done(function(data) {
+              //var text = data;
+              var response=''
+              var dataLength = data.length;
+              for (var i = 0; i < dataLength; i++) {
+
+                for (let j in data[i]) {
+                        response += "<b>" + j + "</b>: " + data[i][j] + "<br>"
+                    }
+                    response += "<br>"
+                  
+                        }
+
+              var botHtml = '<p class="botText"><span>' + response + "</span></p>";
+              $("#chatbox").append(botHtml);
+              
+
+
+              });
+
+               ratings_flag=0;
+               air_name_rating=0;
+               rating_category=0;
+               rating_airname='';
+               rating_cat='';
+
+
+            }
+            
+            return 
+          }
+
+        
+            $.post("/execute_query", { 'message': rawText, 'payload':JSON.stringify({'params':'0'})}).done(function(data){
+              if(data.intent == 'cheap tickets'){
+
+                cheapest_flag = 1;
+                getBotResponse();
+
+              }else if(data.intent == 'cheap tickets by month'){
+
+                cheapest_month_flag = 1;
+                getBotResponse();
+
+
+              }else if(data.intent == 'alternate directions'){
+
+                alt_dir_flag = 1;
+                getBotResponse();
+
+
+              }else if(data.intent == 'track flight'){
+
+                track_flight_flag = 1;
+                getBotResponse();
+
+
+              }else if(data.intent == 'ratings'){
+
+                ratings_flag = 1;
+                getBotResponse();
+
+
+              }
+              else{
+
+
+                getBotResponse();
+                var response=''
+              var dataLength = data.length;
+              for (var i = 0; i < dataLength; i++) {
+
+                for (let j in data[i]) {
+                        response += "<b>" + j + "</b>: " + data[i][j] + "<br>"
+                    }
+                    response += "<br>"
+                  
+                        }
+              var fix_ui_2=0;
+              if(cheapest_flag == 1 || cheapest_month_flag==1 || track_flight_flag==1 || alt_dir_flag==1){
+
+                fix_ui_2=1;
+              }if(fix_ui_2!=1){
+                if(fix_ui!=1){
+              var botHtml = '<p class="botText"><span>' + response + "</span></p>";
+              $("#chatbox").append(botHtml);
+            }else{
+              fix_ui=0;
+            }
+            }
+
+            }
+
+
+
+                
+
+
+            });
+            
+          }
+        });
+
+        function isValidDate(date) {
+    var temp = date.split('/');
+    var d = new Date(temp[0] + '/' + temp[1] + '/' + temp[2]);
+    return (d && (d.getMonth() + 1) == temp[1] && d.getDate() == Number(temp[2]) && d.getFullYear() == Number(temp[0]));
+}
+    
+    
+    function email(data){
+      if(email_req==0){
+
+        var text = "Do you want to receive an email of the displayed information? (yes / no)!";
+      var botHtml = '<p class="botText"><span>' + text + "</span></p>";
+      $("#chatbox").append(botHtml);
+      email_req=1;
+
+      email_resp=data;
+      console.log(email_resp);
+
+      }
+      
+    }
+
+    
+      </script>
+    </div>
+  </body>
+
+
+</html>
