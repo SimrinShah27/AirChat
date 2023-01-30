@@ -1,6 +1,5 @@
 # AirChat
 
-DEMO: https://youtu.be/3zg3TSoShLA
 A chatbot is a computer program that simulates and processes a query initiated by a user. Here, a simple rule based chatbot is created which will effectively glue
 the different cloud technologies in an efficient way and inculcate the concepts covered in class. This chatbot will assist users in tracking flights, finding the cheapest flight tickets for their desired travel dates, check prices for alternate routes, get the cheapest tickets based on month and check the ratings of the airlines based on features like Customer satisfaction, Luggage and overall ratings. Overall, this chatbot is an airways information based chatbot.
 In this project, the four different cloud technologies such as API Interfaces, Databases, Messaging queues and Containers are used to create a simple rulebased chatbot. Firstly, API Interfaces are used to fetch the data which will provide the access to the records of the data set. Next, the user activity will be logged in the database which will also help in debugging the project. Databases will also be used to lookup airport and airline codes and store reviews which will be processed for providing the airline ratings. Later we will be using the Messaging Queue to send desired information to users via mails. Finally, we will be making use of containers, Docker, to deploy the application in the cloud.
@@ -54,4 +53,4 @@ intent. If the output of the chatbot matches the expected output, that intent wi
 have a higher score than the ones with the incorrect output. This score helped in a
 way that incase the intent clashes, the intent with the higher score will be used.
 
-
+DEMO: https://youtu.be/3zg3TSoShLA
